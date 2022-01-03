@@ -147,6 +147,10 @@ p {
   padding: 2rem 0;
 }
 
+.follow-display h3 {
+  padding-bottom: 1rem;
+}
+
 .followers {
   margin-bottom: 1rem;
 }
@@ -165,6 +169,7 @@ li img {
 
 .get-cat {
   border-top: 1px solid black;
+  padding-bottom: 4rem;
 }
 
 .get-cat h2 {
@@ -176,4 +181,15 @@ li img {
   width: 300px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+button {
+  background-color: teal;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.8rem;
+  outline: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
 }

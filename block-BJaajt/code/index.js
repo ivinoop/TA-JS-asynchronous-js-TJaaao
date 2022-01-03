@@ -8,53 +8,69 @@ let input = document.querySelector('input');
 let catButton = document.querySelector('button');
 let catImg = document.querySelector('.cat-img');
 
+function fetch(url, successHandler) {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.onload = () => successHandler(JSON.parse(xhr.response));
+
+  xhr.onerror = function() {
+    console.error('Something went wrong 🙁');
+  };
+  xhr.send();
+}
+
+
+// GitHub User Finder 
+
+function displayFollowers(username) {
+  followers.innerHTML = "";
+  fetch(`https://api.github.com/users/${username}/followers`, function(followersList){
+    let topFive = followersList.slice(0,5);
+    topFive.forEach(info => {
+      let li = document.createElement('li');
+      let img = document.createElement('img');
+      img.src = info.avatar_url;
+      img.href = info.html_url;
+      li.append(img);
+      followers.append(li); 
+    })
+  });
+}
+
+function displayFollowing(username) {
+  following.innerHTML = "";
+  fetch(`https://api.github.com/users/${username}/following`, function(followersList){
+    let topFive = followersList.slice(0,5);
+    topFive.forEach(info => {
+      let li = document.createElement('li');
+      let img = document.createElement('img');
+      img.src = info.avatar_url;
+      img.href = info.html_url;
+      li.append(img);
+      following.append(li); 
+    })
+  });
+}
+
 function createUI(data) {
   userAvatar.src = data.avatar_url;
   githubName.innerText = data.name;
   username.innerText = `@${data.login}`;
   userURL.href = data.html_url;
+  displayFollowers(data.login);
+  displayFollowing(data.login);
 }
 
 function handleEnter(event) {
   if(event.keyCode === 13 && input.value) {
     let user = event.target.value;
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', `https://api.github.com/users/${user}`);
-    xhr.onload = function() {
-      let userData = JSON.parse(xhr.response);
-      createUI(userData);
-    };
-    xhr.onerror = function() {
-      console.log('Something went wrong 🙁');
-    };
-    xhr.send();
-    event.target.value = "";
-    
-    let userFollowers = new XMLHttpRequest();
-    
-    userFollowers.open('GET', `https://api.github.com/users/${user}/followers`);
-    userFollowers.onload = function() {
-      let followersData = JSON.parse(userFollowers.response);
-      followersData.forEach((ele, index) => {
-        if(index <= 5) {
-          let followerAvatar = document.createElement('img');
-          // followerAvatar.classList.add('follower-avatar');
-          followerAvatar.src = ele.avatar_url;
-          followerAvatar.href = ele.url;
-          let followersList = document.createElement('li');
-          followersList.append(followerAvatar);
-          followers.append(followersList);
-        }
-      });
-      userFollowers.send();
-    }  
+    const url = `https://api.github.com/users/${user}`;
+    fetch(url, createUI);
+    input.value = "";
   }
 }
 
-
 input.addEventListener('keyup', handleEnter);
-
-// https://api.thecatapi.com/v1/images/search?limit=1&size=full
 
 // Get New Cat
 
