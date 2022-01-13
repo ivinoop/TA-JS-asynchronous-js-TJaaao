@@ -45,14 +45,14 @@ function displayImg(images) {
 
 fetch(url) 
 .then(displayImg)
-.catch(error => console.log("Something went wrong!"));
+.catch(error => console.log(error));
 
 
 function handleSearch(event) {
   if(event.keyCode === 13 && input.value) {
     fetch(searchURL(input.value)).then(searchResults => {
       displayImg(searchResults.results);
-    }).catch(error => console.log('Something went wrong!'))
+    }).catch(error => console.log(error));
     input.value = '';
   }
 }
