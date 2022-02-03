@@ -5,7 +5,7 @@
 let myPromise = new Promise((resolve, reject) => {
   setTimeout(() => resolve('Promise Resolved!'), 1000);
 });
-myPromise.then(val => console.log(val));
+myPromise.then(console.log);
 ```
 
 2. Create another promise. Now have it reject with a value of `Rejected Promise!` using `setTimeout`. Print the contents of the promise after it has been rejected by passing console.log to `.catch`
@@ -108,7 +108,13 @@ let myPromise = new Promise((resolve, reject) => {
   return value.concat('B');
 })
 .then((value) => {
-  return
+  return value.reduce((acc, cv, i) => {
+    acc[i] = cv;
+    return acc;
+  }, {});
+})
+.then((value) => {
+  console.log(value);
 })
 ```
 
