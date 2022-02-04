@@ -1,47 +1,62 @@
-const category = document.querySelector('#category');
+let url = 'https://api.spaceflightnewsapi.net/v3/articles?_limit=30';
+
 let newsList = document.querySelector('.news-list');
+let select = document.querySelector('select');
 
-let data = fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
-.then((resolve) => resolve.json())
-.then((info) => info.forEach((data) => createUI(data)));
+let allNews = [];
 
-function handleChange(event) {
-  document.querySelector('.news-list').innerHTML = '';
-  let url = fetch('https://api.spaceflightnewsapi.net/v3/articles?_limit=30')
-  .then((resolve) => resolve.json())
-  .then((info) => {
-    info.forEach((data) => {
-      if(data.newsSite == event.target.value) {
-        createUI(data);
-      }
-    })
-  })
-}
-
-function createUI(info) {
+function renderNews(news) {
+  newsList.innerHTML = '';
+  news.forEach((newsItem) => {
   let newsBox = document.createElement('li');
-  let textBox = document.querySelector('div');
+  let textBox = document.createElement('div');
   let newsImage = document.createElement('img');
   let newsSite = document.createElement('span');
   let newsHeading = document.createElement('h3');
   let newsSummary = document.createElement('p');
   let readBtn = document.createElement('a');
 
-  newsBox.setAttribute('class', 'news-box flex jcc aic')
-  textBox.setAttribute('class', 'flex aifs column')
-  newsImage.src = info.imageUrl;
-  newsSite.innerText = info.newsSite;
-  newsHeading.innerText = info.title;
-  newsSummary.innerText = info.summary;
+  newsBox.classList.add('news-box', 'flex', 'jcc', 'aic');
+  textBox.classList.add('text-box', 'flex', 'aifs', 'column');
+  newsImage.src = newsItem.imageUrl;
+  newsSite.innerText = newsItem.newsSite;
+  newsHeading.innerText = newsItem.title;
+  newsSummary.innerText = newsItem.summary;
   readBtn.innerText = 'Read More'
-  readBtn.href = info.url;
+  readBtn.href = newsItem.url;
   readBtn.target = "_blank";
 
-  // newsBox.append(newsImage);
   textBox.append(newsSite, newsHeading, newsSummary, readBtn);
-  newsBox.append(newsImage ,textBox);
-  newsList.append(newsBox, textBox);
-
+  newsBox.append(newsImage,textBox);
+  newsList.append(newsBox); 
+  })
 }
 
-category.addEventListener('change', handleChange);
+function displayOptions(sources) {
+  sources.forEach(source => {
+    let option = document.createElement('option');
+    option.innerText = source;
+    option.value = source;
+    select.append(option)
+  })
+}
+
+fetch(url)
+.then((resolve) => resolve.json())
+.then((news) => {
+  allNews = news;
+  renderNews(news);
+  let allSources = Array.from(new Set(news.map(n => n.newsSite)));
+  displayOptions(allSources);
+});
+
+select.addEventListener('change', (event) => {
+  let source = event.target.value.trim();
+  let filteredNews;
+  if(source) {
+    filteredNews = allNews.filter(news => news.newsSite === source);
+  } else {
+    filteredNews = allNews;
+  }
+  renderNews(filteredNews);
+});

@@ -113,8 +113,8 @@ select {
   color: white;
   font-size: 1.2rem;
   padding: 0.4rem 0.6rem;
-  border-radius: 0.8rem;
-  width: 250px;
+  border-radius: 0.4rem;
+  width: 230px;
   border: none;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
   outline: none;
@@ -130,6 +130,10 @@ img {
 .text-box {
   margin-left: 1rem;
   max-width: 800px;
+}
+
+li {
+  margin-bottom: 1rem;
 }
 
 span {
@@ -157,5 +161,5 @@ a {
   background-color: #000;
   padding: 0.5rem 1rem;
   color: #fff;
-  border-radius: 0.8rem;
+  border-radius: 0.3rem;
 }
