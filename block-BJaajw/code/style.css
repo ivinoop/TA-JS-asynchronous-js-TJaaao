@@ -176,3 +176,11 @@ a {
   width: 100px;
   height: 100px;
 }
+
+.error-message {
+  text-align: center;
+  margin-top: 4rem;
+  color: red;
+  font-size: 1.4rem;
+  display: none;
+}
