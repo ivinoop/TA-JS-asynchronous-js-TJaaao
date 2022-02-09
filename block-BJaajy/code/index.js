@@ -26,6 +26,17 @@ let promiseAll = Promise.all([one, two, three, four])
 .then((res) => console.log(res))
 .catch((error) => console.error(error));
 
+// Alternate
+
+let times = [1,2,3,4];
+
+let timesPromise = times.map((second) => new Promise((resolve) => {
+  setTimeout(() => resolve(Math.random()) , second * 1000);
+})
+);
+
+Promise.all(timesPromise).then(console.log);
+
 // - Create a list of 5 Github usernames in an array and using `Promise.all` get access to the data of each user from GitHub API. Log the number of followers of each user.
 
 let usernames = ['ivinoop', 'nnnkit', 'srivatsa224', 'suraj122', 'prank7'];
@@ -50,15 +61,18 @@ Promise.race([dogPromise, catPromise]).then(console.log);
 // - Use `Promise.allSettled` to log the value of each promise from the given list of promises. And also check if `Promise.all` works with `one`, `two` and `three` or not
 
 // ```js
-// const one = new Promise((resolve, reject) =>
-//   setTimeout(() => resolve('Arya'), 1000)
-// );
-// const two = new Promise((resolve, reject) =>
-//   setTimeout(() => reject(new Error('Whoops!')), 2000)
-// );
-// const three = new Promise((resolve, reject) =>
-//   setTimeout(() => resolve('John'), 3000)
-// );
+const one = new Promise((resolve, reject) =>
+  setTimeout(() => resolve('Arya'), 1000)
+);
+const two = new Promise((resolve, reject) =>
+  setTimeout(() => reject(new Error('Whoops!')), 2000)
+);
+const three = new Promise((resolve, reject) =>
+  setTimeout(() => resolve('John'), 3000)
+);
+
+Promise.allSettled([one, two, three])
+.then(console.log);
 // ```
 
 
@@ -75,6 +89,7 @@ Promise.race([dogPromise, catPromise]).then(console.log);
 // ]).then(console.log);
 // ```
 // ----------Output----------
+
 // ["Arya", "sam", {name: "John"}]
 // Takes 1 second to resolve
 
