@@ -11,7 +11,7 @@
   <header>
     <h1 class="tac">ToDo App Using API</h1>
   </header>
-  <main>
+  <!-- <main>
     <div class="tac">
       <input class="input" type="text" placeholder="Enter Task">
       <ul class="todo-container">
@@ -22,7 +22,52 @@
         </li>
       </ul>
     </div>
-  </main>
-  <script src="index.js"></script>
+  </main> -->
+  <!-- <script src="index.js"></script> -->
+  <script>
+    const url = 'https://ac-todo-api.herokuapp.com/api/todo';
+
+fetch(url)
+.then((res) => res.json())
+.then(console.log);
+
+// ----------------------------
+
+// Create
+
+// let data = {
+//   todo: {
+//     title: 'Learn React',
+//     isCompleted: true,
+//   }
+// };
+
+// fetch(url, {
+//   method: 'POST', // *GET, POST, PUT, DELETE, etc.
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify(data) // body data type must match "Content-Type" header
+// });
+
+// ----------------------------
+
+// Update
+
+let data = {
+  todo: {
+    title: 'Have fun!',
+  }
+};
+
+fetch(url + '/6141b3dbcbd12000152dbd81', {
+  method: 'POST', // *GET, POST, PUT, DELETE, etc.
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data) // body data type must match "Content-Type" header
+});
+
+  </script>
 </body>
 </html>
